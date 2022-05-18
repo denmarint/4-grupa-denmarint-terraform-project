@@ -3,6 +3,11 @@ variable "owner" {
   type        = string
   default     = "denmarint"
 }
+variable "ec2_env" {
+  description = "Name of environment"
+  type        = string
+  default     = ""
+}
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
