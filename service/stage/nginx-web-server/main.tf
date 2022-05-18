@@ -11,6 +11,7 @@ module "vpc" {
 module "ec2" {
   source = "../../../modules/ec2"
   ec2_env = var.env
+  instance_type = var.instance_type
   subnet_id = module.vpc.public_subnet_id[0]
   private_ip = [ "10.0.1.100" ] 
 }
