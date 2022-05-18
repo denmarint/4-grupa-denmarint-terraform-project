@@ -1,18 +1,6 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "4.0.0"
-    }
-  }
-}
-
-provider "aws" {
-  region = "us-west-2"
-}
-
 module "vpc" {
   source = "../../../modules/vpc"
+  vpc_env = var.env
   cidr = "10.0.0.0/16"
   public_subnets    = [ "10.0.1.0/24", "10.0.2.0/24" ]
   private_subnets   = [ "10.0.11.0/24", "10.0.12.0/24" ]
@@ -22,7 +10,7 @@ module "vpc" {
 
 module "ec2" {
   source = "../../../modules/ec2"
-  instance_type = "t3.small"
+  ec2_env = var.env
   subnet_id = module.vpc.public_subnet_id[0]
   private_ip = [ "10.0.1.100" ] 
 }
