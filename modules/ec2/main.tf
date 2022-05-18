@@ -15,17 +15,19 @@ resource "aws_network_interface" "main" {
   subnet_id   = var.subnet_id
   private_ips = var.private_ip
   tags = {
-    Name = "${var.owner}_interface"
+    Name = "${var.owner}_${var.ec2_env}_interface"
     Owner = var.owner
+    Env = var.ec2_env
   }
 }
 
 resource "aws_key_pair" "main" {
-  key_name   = "${var.owner}-key"
+  key_name   = "${var.owner}_${var.ec2_env}_key"
   public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHf4u+DfeoXH0cPmlH41gWPZMKraXTOpsxjr5pyGZi66 denmarint@github"
   tags = {
-    Name = "${var.owner}_instance"
+    Name = "${var.owner}_${var.ec2_env}_instance"
     Owner = var.owner
+    Env = var.ec2_env
   }
 }
 
@@ -60,7 +62,8 @@ EOD2
 EOF
 
   tags = {
-    Name = "${var.owner}_instance"
+    Name = "${var.owner}_${var.ec2_env}_instance"
     Owner = var.owner
-  }
+     Env = var.ec2_env
+ }
 }

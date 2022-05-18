@@ -4,8 +4,9 @@
 resource "aws_vpc" "main" {
   cidr_block = var.cidr
   tags = {
-    Name = "${var.owner}_vpc_main"
+    Name = "${var.owner}_${var.vpc_env}_vpc_main"
     Owner = var.owner
+    Env = var.vpc_env
   }
 }
 #
@@ -14,8 +15,9 @@ resource "aws_vpc" "main" {
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
   tags = {
-    Name = "${var.owner}_internet_gw"
+    Name = "${var.owner}_${var.vpc_env}_internet_gw"
     Owner = var.owner
+    Env = var.vpc_env
   }
 }
 #
@@ -26,8 +28,9 @@ resource "aws_nat_gateway" "main" {
   subnet_id     = aws_subnet.public[0].id
   depends_on = [aws_internet_gateway.main]
   tags = {
-    Name = "${var.owner}_nat_gateway"
+    Name = "${var.owner}_${var.vpc_env}_nat_gateway"
     Owner = var.owner
+    Env = var.vpc_env
   }
 }
 #
@@ -36,8 +39,9 @@ resource "aws_nat_gateway" "main" {
 resource "aws_eip" "main" {
   vpc = true
   tags = {
-    Name = "${var.owner}_elastic_ip1"
+    Name = "${var.owner}_${var.vpc_env}_elastic_ip1"
     Owner = var.owner
+    Env = var.vpc_env
   }
 }
 #
@@ -50,8 +54,9 @@ resource "aws_route_table" "public" {
     gateway_id = aws_internet_gateway.main.id
   }
   tags = {
-    Name = "${var.owner}_rtable_public"
+    Name = "${var.owner}_${var.vpc_env}_rtable_public"
     Owner = var.owner
+    Env = var.vpc_env
   }
 }
 resource "aws_route_table" "private" {
@@ -61,8 +66,9 @@ resource "aws_route_table" "private" {
     gateway_id = aws_nat_gateway.main.id
   }
   tags = {
-    Name = "${var.owner}_rtable_private"
+    Name = "${var.owner}_${var.vpc_env}_rtable_private"
     Owner = var.owner
+    Env = var.vpc_env
   }
 }
 #
@@ -85,8 +91,9 @@ resource "aws_subnet" "public" {
   cidr_block = var.public_subnets[count.index]
   tags = {
     Type = "Public"
-    Name = "${var.owner}_subnet_public${count.index}"
+    Name = "${var.owner}_${var.vpc_env}_subnet_public${count.index}"
     Owner = var.owner
+    Env = var.vpc_env
   }
 }
 #
@@ -98,8 +105,9 @@ resource "aws_subnet" "private" {
   cidr_block = var.private_subnets[count.index]
   tags = {
     Type = "Private"
-    Name = "${var.owner}_subnet_private${count.index}"
+    Name = "${var.owner}_${var.vpc_env}_subnet_private${count.index}"
     Owner = var.owner
+    Env = var.vpc_env
   }
 }
 #
@@ -135,7 +143,8 @@ resource "aws_security_group" "default" {
     cidr_blocks      = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "${var.owner}_security_group"
+    Name = "${var.owner}_${var.vpc_env}_security_group"
     Owner = var.owner
+    Env = var.vpc_env
   }
 }
