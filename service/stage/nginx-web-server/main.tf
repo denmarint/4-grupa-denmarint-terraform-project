@@ -1,3 +1,16 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "4.14.0"
+    }
+  }
+}
+
+provider "aws" {
+  profile = "default"
+}
+
 module "vpc" {
   source = "../../../modules/vpc"
   vpc_env = var.env
